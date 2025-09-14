@@ -62,11 +62,12 @@ func GetMapSpecificValue[T MapSupportedTypes](m map[string]interface{}, key stri
 	case string:
 		if _, ok := any(zero).(bool); ok {
 			lowerVal := strings.ToLower(v)
-			if lowerVal == "true" || lowerVal == "1" {
+			switch lowerVal {
+			case "true", "1":
 				result = true
-			} else if lowerVal == "false" || lowerVal == "0" {
+			case "false", "0":
 				result = false
-			} else {
+			default:
 				return zero
 			}
 		} else {
@@ -105,4 +106,34 @@ func Ternary[T any](condition bool, trueVal, falseVal T) T {
 		return trueVal
 	}
 	return falseVal
+}
+
+// 有序 Map 严格按照Append的顺序执行, 先进先出, 同名会被覆盖
+type OrderlyMap struct {
+	funcMap  map[string]func()
+	nameList []string
+}
+
+func NewOrderlyMap() *OrderlyMap {
+	return &OrderlyMap{
+		funcMap:  make(map[string]func()),
+		nameList: make([]string, 0),
+	}
+}
+
+func (self *OrderlyMap) Append(funcName string, value func()) {
+	if _, exists := self.funcMap[funcName]; !exists {
+		self.nameList = append(self.nameList, funcName)
+	}
+	self.funcMap[funcName] = value
+}
+
+func (self *OrderlyMap) Foreach() {
+	if self == nil || len(self.nameList) == 0 {
+		return
+	}
+
+	for _, funcName := range self.nameList {
+		self.funcMap[funcName]()
+	}
 }

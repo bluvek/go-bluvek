@@ -1,15 +1,15 @@
 package core
 
 type BaseConfig struct {
-	App    app    `mapstructure:"app" json:"app" yaml:"app"`
-	Dbs    dbs    `mapstructure:"dbs" json:"dbs" yaml:"dbs"`
-	Redis  redis  `mapstructure:"redis" json:"redis" yaml:"redis"`
-	Mongo  mongo  `mapstructure:"mongo" json:"mongo" yaml:"mongo"`
-	Logger logger `mapstructure:"logger" json:"logger" yaml:"logger"`
-	Casbin casbin `mapstructure:"casbin" json:"casbin" yaml:"casbin"`
-	Jwt    jwt    `mapstructure:"jwt" json:"jwt" yaml:"jwt"`
-	Oss    oss    `mapstructure:"oss" json:"oss" yaml:"oss"`
-	Cores  cores  `mapstructure:"cores" json:"cores" yaml:"cores"`
+	App    app       `mapstructure:"app" json:"app" yaml:"app"`
+	Dbs    dbsConf   `mapstructure:"dbs" json:"dbs" yaml:"dbs"`
+	Redis  redisConf `mapstructure:"redis" json:"redis" yaml:"redis"`
+	Mongo  mongoConf `mapstructure:"mongo" json:"mongo" yaml:"mongo"`
+	Logger logger    `mapstructure:"logger" json:"logger" yaml:"logger"`
+	Casbin casbin    `mapstructure:"casbin" json:"casbin" yaml:"casbin"`
+	Jwt    jwt       `mapstructure:"jwt" json:"jwt" yaml:"jwt"`
+	Oss    oss       `mapstructure:"oss" json:"oss" yaml:"oss"`
+	Cores  cores     `mapstructure:"cores" json:"cores" yaml:"cores"`
 }
 
 type app struct {
@@ -21,7 +21,7 @@ type app struct {
 	RouterPrefix string `mapstructure:"router_prefix" json:"router_prefix" yaml:"router_prefix"`
 }
 
-type dbs struct {
+type dbsConf struct {
 	Name          string `mapstructure:"name" json:"name" yaml:"name"`
 	Driver        string `mapstructure:"driver" json:"driver" yaml:"driver"`
 	Dsn           string `mapstructure:"dsn" json:"dsn" yaml:"dsn"`
@@ -32,14 +32,14 @@ type dbs struct {
 	SlowThreshold int    `mapstructure:"slow_threshold" json:"slow_threshold" yaml:"slow_threshold"`
 }
 
-type redis struct {
+type redisConf struct {
 	Addr      string `mapstructure:"addr" json:"addr" yaml:"addr"`
 	Pwd       string `mapstructure:"pwd" json:"pwd" yaml:"pwd"`
 	Db        int    `mapstructure:"db" json:"db" yaml:"db"`
 	IsCluster bool   `mapstructure:"is_cluster" json:"is_cluster" yaml:"is_cluster"`
 }
 
-type mongo struct {
+type mongoConf struct {
 	URL string `mapstructure:"url" json:"url" yaml:"url"`
 }
 
