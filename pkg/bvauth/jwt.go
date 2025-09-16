@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/bluvek/go-bluvek/core"
+	"github.com/bluvek/go-bluvek/console"
 	"github.com/bluvek/go-bluvek/pkg/bvutils"
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/spf13/viper"
@@ -28,7 +28,7 @@ func loadSecretKey() []byte {
 	}
 
 	randomBytes := []byte("1234567890")
-	core.Echo.Warnf("⚠️ 警告: Jwt.SecretKey 为空，使用固定密钥: %s\n", string(randomBytes))
+	console.Echo.Warnf("⚠️ 警告: Jwt.SecretKey 为空，使用固定密钥: %s\n", string(randomBytes))
 
 	return randomBytes
 }
@@ -44,7 +44,7 @@ func GenerateJwtToken(claimsMap jwt.MapClaims) (string, error) {
 		if expire > 0 {
 			claimsMap["exp"] = time.Now().Add(time.Duration(expire) * time.Second).Unix()
 		} else {
-			core.Echo.Warnf("⚠️ 警告: Jwt.Expire 为空，使用默认值: 20 分钟\n")
+			console.Echo.Warnf("⚠️ 警告: Jwt.Expire 为空，使用默认值: 20 分钟\n")
 			claimsMap["exp"] = time.Now().Add(time.Minute * 20).Unix()
 		}
 	}

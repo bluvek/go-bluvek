@@ -3,6 +3,7 @@ package core
 import (
 	"sync"
 
+	"github.com/bluvek/go-bluvek/console"
 	"github.com/bluvek/go-bluvek/pkg/bvcache"
 	casbinV2 "github.com/casbin/casbin/v2"
 	"github.com/go-redis/redis/v8"
@@ -22,8 +23,8 @@ var (
 )
 
 func Run() {
-	if err := CoreCmd.Execute(); err != nil {
-		Echo.Fatalf("❌  服务启动失败: [%s] \n", err)
+	if err := console.CoreCmd.Execute(); err != nil {
+		console.Echo.Fatalf("❌  服务启动失败: [%s] \n", err)
 	}
 }
 

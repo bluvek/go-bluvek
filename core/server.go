@@ -3,6 +3,7 @@ package core
 import (
 	"fmt"
 
+	"github.com/bluvek/go-bluvek/console"
 	"github.com/bluvek/go-bluvek/pkg/bvutils"
 	"github.com/spf13/cobra"
 	"golang.org/x/sync/errgroup"
@@ -40,7 +41,7 @@ func RegisterService(service ...IService) {
 
 func closeService() {
 	// 停止服务
-	_ = Echo.Sync()
+	_ = console.Echo.Sync()
 	_ = Log.Sync()
 	if rotationSchedulerProcess != nil {
 		rotationSchedulerProcess.Stop()

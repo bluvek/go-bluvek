@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/bluvek/go-bluvek/console"
 	"github.com/bluvek/go-bluvek/core"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -12,7 +13,7 @@ import (
 )
 
 func init() {
-	core.RegisterTask(20, mongoCmd)
+	console.RegisterTask(20, mongoCmd)
 }
 
 var mongoCmd = &cobra.Command{
@@ -42,6 +43,6 @@ func initClient(url string) error {
 	}
 
 	core.Mdb = client
-	core.Echo.Info("✅ 提示: [Mongo] 模块加载成功, 你可以使用 `core.Mdb` 进行数据操作\n")
+	console.Echo.Info("✅ 提示: [Mongo] 模块加载成功, 你可以使用 `core.Mdb` 进行数据操作\n")
 	return nil
 }

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/bluvek/go-bluvek/console"
 	"github.com/bluvek/go-bluvek/core"
 	"github.com/bluvek/go-bluvek/pkg/bvutils"
 	"github.com/spf13/cobra"
@@ -19,7 +20,7 @@ const (
 )
 
 func init() {
-	core.RegisterTask(10, dbCmd)
+	console.RegisterTask(10, dbCmd)
 }
 
 var dbCmd = &cobra.Command{
@@ -101,7 +102,7 @@ func initFunc() error {
 			funcName = bvutils.Ternary(isDefault, "gooze.Sqlx()", fmt.Sprintf(`gooze.Sqlx("%s")`, dbConf.Name))
 		}
 
-		core.Echo.Infof("✅  提示: [%s] DB 模块加载成功, 你可以使用 `%s` 进行数据操作\n", dbConf.Name, funcName)
+		console.Echo.Infof("✅  提示: [%s] DB 模块加载成功, 你可以使用 `%s` 进行数据操作\n", dbConf.Name, funcName)
 	}
 
 	return nil

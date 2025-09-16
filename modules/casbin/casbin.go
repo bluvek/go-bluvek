@@ -3,6 +3,7 @@ package casbinmodule
 import (
 	"fmt"
 
+	"github.com/bluvek/go-bluvek/console"
 	"github.com/bluvek/go-bluvek/core"
 	"github.com/bluvek/go-bluvek/pkg/bvutils"
 	"github.com/casbin/casbin/v2"
@@ -14,7 +15,7 @@ import (
 )
 
 func init() {
-	core.RegisterTask(5, casbinCmd)
+	console.RegisterTask(5, casbinCmd)
 }
 
 var casbinCmd = &cobra.Command{
@@ -59,6 +60,6 @@ func initCasbin() error {
 	_ = syncedEnforcer.LoadPolicy()
 
 	core.Casbin = syncedEnforcer
-	core.Echo.Info("✅  提示: [Casbin] 模块加载成功, 你可以使用 `gooze.Casbin` 进行权限操作\n")
+	console.Echo.Info("✅  提示: [Casbin] 模块加载成功, 你可以使用 `gooze.Casbin` 进行权限操作\n")
 	return nil
 }

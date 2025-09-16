@@ -3,6 +3,7 @@ package bvmiddleware
 import (
 	"strings"
 
+	"github.com/bluvek/go-bluvek/console"
 	"github.com/bluvek/go-bluvek/core"
 	"github.com/bluvek/go-bluvek/pkg/bvauth"
 	"github.com/bluvek/go-bluvek/pkg/bverror"
@@ -21,7 +22,7 @@ func Casbin() gin.HandlerFunc {
 
 		roleId := bvauth.GetTokenValue[int64](ctx, "role_id")
 		if roleId == 0 {
-			core.Echo.Info("ℹ️ 提示: 无法使用 `Casbin` 权限校验, 请确保 `Token` 中包含了字段 `role_id`")
+			console.Echo.Info("ℹ️ 提示: 无法使用 `Casbin` 权限校验, 请确保 `Token` 中包含了字段 `role_id`")
 			ctx.Next()
 			return
 		}

@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/bluvek/go-bluvek/console"
 	"github.com/bluvek/go-bluvek/core"
 	"github.com/go-redis/redis/v8"
 	"github.com/spf13/cobra"
@@ -13,7 +14,7 @@ import (
 )
 
 func init() {
-	core.RegisterTask(9, redisCmd)
+	console.RegisterTask(9, redisCmd)
 }
 
 var redisCmd = &cobra.Command{
@@ -37,7 +38,7 @@ var redisCmd = &cobra.Command{
 		)
 		if err == nil {
 			core.Rdb = conn
-			core.Echo.Infof("✅  提示: [Redis] 模块加载成功, 你可以使用 `gooze.Rdb` 进行数据操作\n")
+			console.Echo.Infof("✅  提示: [Redis] 模块加载成功, 你可以使用 `gooze.Rdb` 进行数据操作\n")
 		}
 
 		return err

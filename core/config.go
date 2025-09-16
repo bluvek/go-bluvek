@@ -1,5 +1,13 @@
 package core
 
+import (
+	"fmt"
+	"strings"
+
+	"github.com/joho/godotenv"
+	"github.com/spf13/viper"
+)
+
 type BaseConfig struct {
 	App    app       `mapstructure:"app" json:"app" yaml:"app"`
 	Dbs    dbsConf   `mapstructure:"dbs" json:"dbs" yaml:"dbs"`
@@ -75,4 +83,33 @@ type oss struct {
 type cores struct {
 	Mode      string   `mapstructure:"mode" json:"mode" yaml:"mode"`
 	Whitelist []string `mapstructure:"whitelist" json:"whitelist" yaml:"whitelist"`
+}
+
+func LoadConfig[T any](file string, env string, target *T) error {
+	viper.SetConfigFile(file)
+	if err := viper.ReadInConfig(); err != nil {
+		return fmt.Errorf("读取配置文件错误: %s", err)
+	}
+
+	if env != "" {
+		if err := godotenv.Load(env); err != nil {
+			return fmt.Errorf("读取环境变量错误: %s", err)
+		}
+	}
+
+	viper.AutomaticEnv()
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
+
+	// 强制初始化必要的配置
+	if viper.GetInt("App.CacheCap") == 0 {
+		viper.Set("App.CacheCap", 100000)
+	}
+	if viper.GetInt("App.CacheShard") == 0 {
+		viper.Set("App.CacheShard", 64)
+	}
+	if viper.GetString("Casbin.DbName") == "" {
+		viper.Set("Casbin.DbName", "default")
+	}
+
+	return viper.Unmarshal(target)
 }
