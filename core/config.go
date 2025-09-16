@@ -10,7 +10,7 @@ import (
 
 type BaseConfig struct {
 	App    app       `mapstructure:"app" json:"app" yaml:"app"`
-	Dbs    dbsConf   `mapstructure:"dbs" json:"dbs" yaml:"dbs"`
+	Dbs    []dbsConf `mapstructure:"dbs" json:"dbs" yaml:"dbs"`
 	Redis  redisConf `mapstructure:"redis" json:"redis" yaml:"redis"`
 	Mongo  mongoConf `mapstructure:"mongo" json:"mongo" yaml:"mongo"`
 	Logger logger    `mapstructure:"logger" json:"logger" yaml:"logger"`
@@ -33,7 +33,7 @@ type dbsConf struct {
 	Name          string `mapstructure:"name" json:"name" yaml:"name"`
 	Driver        string `mapstructure:"driver" json:"driver" yaml:"driver"`
 	Dsn           string `mapstructure:"dsn" json:"dsn" yaml:"dsn"`
-	UseGorm       bool   `mapstructure:"usegorm" json:"use_gorm" yaml:"use_gorm"`
+	UseGorm       bool   `mapstructure:"use_gorm" json:"use_gorm" yaml:"use_gorm"`
 	LogLevel      string `mapstructure:"log_level" json:"log_level" yaml:"log_level"`
 	MaxIdleConns  int    `mapstructure:"max_idle_conns" json:"max_idle_conns" yaml:"max_idle_conns"`
 	MaxOpenConns  int    `mapstructure:"max_open_conns" json:"max_open_conns" yaml:"max_open_conns"`

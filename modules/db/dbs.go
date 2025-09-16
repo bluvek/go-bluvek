@@ -46,27 +46,27 @@ type dbConfig struct {
 }
 
 func initFunc() error {
-	conf := viper.Get(`databases`)
-	confMap, ok := conf.([]interface{})
+	conf := viper.Get(`dbs`)
+	confMap, ok := conf.([]any)
 	if !ok || len(confMap) == 0 {
-		return fmt.Errorf("请确保 `databases` 模块的配置符合要求")
+		return fmt.Errorf("请确保 `dbs` 模块的配置符合要求")
 	}
 
 	isDefault := len(confMap) == 1
 	for _, v := range confMap {
-		dbConfMap, ok := v.(map[string]interface{})
+		dbConfMap, ok := v.(map[string]any)
 		if !ok {
-			return fmt.Errorf("请确保 `databases` 模块的配置符合要求")
+			return fmt.Errorf("请确保 `dbs` 模块的配置符合要求")
 		}
 
 		jsonData, err := json.Marshal(dbConfMap)
 		if err != nil {
-			return fmt.Errorf("请确保 `databases` 模块的配置符合要求")
+			return fmt.Errorf("请确保 `dbs` 模块的配置符合要求")
 		}
 
 		var dbConf dbConfig
 		if err = json.Unmarshal(jsonData, &dbConf); err != nil {
-			return fmt.Errorf("请确保 `databases` 模块的配置符合要求")
+			return fmt.Errorf("请确保 `dbs` 模块的配置符合要求")
 		}
 
 		// 默认值设置
@@ -89,7 +89,7 @@ func initFunc() error {
 			if isDefault {
 				core.SetDb("default", gdb, nil)
 			}
-			funcName = bvutils.Ternary(isDefault, "gooze.Gorm()", fmt.Sprintf(`gooze.Gorm("%s")`, dbConf.Name))
+			funcName = bvutils.Ternary(isDefault, "core.Gorm()", fmt.Sprintf(`core.Gorm("%s")`, dbConf.Name))
 		} else {
 			sdb, err := newSqlxDB(&dbConf)
 			if err != nil {
@@ -99,7 +99,7 @@ func initFunc() error {
 			if isDefault {
 				core.SetDb("default", nil, sdb)
 			}
-			funcName = bvutils.Ternary(isDefault, "gooze.Sqlx()", fmt.Sprintf(`gooze.Sqlx("%s")`, dbConf.Name))
+			funcName = bvutils.Ternary(isDefault, "core.Sqlx()", fmt.Sprintf(`core.Sqlx("%s")`, dbConf.Name))
 		}
 
 		console.Echo.Infof("✅  提示: [%s] DB 模块加载成功, 你可以使用 `%s` 进行数据操作\n", dbConf.Name, funcName)
