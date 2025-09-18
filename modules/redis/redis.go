@@ -20,7 +20,7 @@ func init() {
 var redisCmd = &cobra.Command{
 	Use:    "redis",
 	Short:  "Init Redis",
-	Long:   `加载Redis模块之后，可以通过 gooze.Rdb 进行数据操作`,
+	Long:   `加载Redis模块之后，可以通过 core.Rdb 进行数据操作`,
 	Hidden: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		addr := viper.GetString("Redis.Addr")
@@ -38,7 +38,7 @@ var redisCmd = &cobra.Command{
 		)
 		if err == nil {
 			core.Rdb = conn
-			console.Echo.Infof("✅  提示: [Redis] 模块加载成功, 你可以使用 `gooze.Rdb` 进行数据操作\n")
+			console.Echo.Infof("✅  提示: [Redis] 模块加载成功, 你可以使用 `core.Rdb` 进行数据操作\n")
 		}
 
 		return err

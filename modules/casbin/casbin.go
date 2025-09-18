@@ -1,4 +1,4 @@
-package casbinmodule
+package casbin
 
 import (
 	"fmt"
@@ -21,7 +21,7 @@ func init() {
 var casbinCmd = &cobra.Command{
 	Use:    "casbin",
 	Short:  "Init Casbin",
-	Long:   `加载Casbin模块之后，可以通过 gooze.Casbin 进行权限校验`,
+	Long:   `加载Casbin模块之后，可以通过 core.Casbin 进行权限校验`,
 	Hidden: true,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		return initCasbin()
@@ -60,6 +60,6 @@ func initCasbin() error {
 	_ = syncedEnforcer.LoadPolicy()
 
 	core.Casbin = syncedEnforcer
-	console.Echo.Info("✅  提示: [Casbin] 模块加载成功, 你可以使用 `gooze.Casbin` 进行权限操作\n")
+	console.Echo.Info("✅  提示: [Casbin] 模块加载成功, 你可以使用 `core.Casbin` 进行权限操作\n")
 	return nil
 }

@@ -19,7 +19,7 @@ func init() {
 var mongoCmd = &cobra.Command{
 	Use:   "mongoDB",
 	Short: "Init MongoDB",
-	Long:  `加载MongoDB模块之后，可以通过 gooze.Mdb 进行数据操作`,
+	Long:  `加载MongoDB模块之后，可以通过 core.Mdb 进行数据操作`,
 	RunE: func(cmd *cobra.Command, args []string) error {
 		url := viper.GetString("Mongo.Url")
 		if url == "" {
