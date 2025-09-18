@@ -41,12 +41,12 @@ type dbConfig struct {
 	LogLevel        int
 	EnableLogWriter bool
 	MaxIdleConn     int
-	MaxConn         int
+	MaxOpenConn     int
 	SlowThreshold   int
 }
 
 func initFunc() error {
-	conf := viper.Get(`dbs`)
+	conf := viper.Get(`Dbs`)
 	confMap, ok := conf.([]any)
 	if !ok || len(confMap) == 0 {
 		return fmt.Errorf("请确保 `dbs` 模块的配置符合要求")
@@ -71,7 +71,7 @@ func initFunc() error {
 
 		// 默认值设置
 		dbConf.LogLevel = bvutils.Ternary(dbConf.LogLevel <= 0, 3, dbConf.LogLevel)
-		dbConf.MaxConn = bvutils.Ternary(dbConf.MaxConn <= 0, 200, dbConf.MaxConn)
+		dbConf.MaxOpenConn = bvutils.Ternary(dbConf.MaxOpenConn <= 0, 200, dbConf.MaxOpenConn)
 		dbConf.MaxIdleConn = bvutils.Ternary(dbConf.MaxIdleConn <= 0, 10, dbConf.MaxIdleConn)
 		dbConf.SlowThreshold = bvutils.Ternary(dbConf.SlowThreshold <= 0, 2000, dbConf.SlowThreshold)
 

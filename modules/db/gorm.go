@@ -26,8 +26,8 @@ func newGormDB(conf *dbConfig) (*gorm.DB, error) {
 	if conf.MaxIdleConn == 0 {
 		conf.MaxIdleConn = 10
 	}
-	if conf.MaxConn == 0 {
-		conf.MaxConn = 200
+	if conf.MaxOpenConn == 0 {
+		conf.MaxOpenConn = 200
 	}
 	if conf.SlowThreshold == 0 {
 		conf.SlowThreshold = 200
@@ -70,7 +70,7 @@ func newGormDB(conf *dbConfig) (*gorm.DB, error) {
 
 	sqlDB, _ := db.DB()
 	sqlDB.SetMaxIdleConns(conf.MaxIdleConn)
-	sqlDB.SetMaxOpenConns(conf.MaxConn)
+	sqlDB.SetMaxOpenConns(conf.MaxOpenConn)
 
 	return db, nil
 }

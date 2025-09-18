@@ -18,7 +18,7 @@ func newSqlxDB(conf *dbConfig) (*sqlx.DB, error) {
 	}
 
 	db.SetMaxIdleConns(conf.MaxIdleConn)
-	db.SetMaxOpenConns(conf.MaxConn)
+	db.SetMaxOpenConns(conf.MaxOpenConn)
 	db.SetConnMaxLifetime(time.Hour)
 
 	return db, nil
