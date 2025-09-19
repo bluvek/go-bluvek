@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/bluvek/go-bluvek/console"
 	"github.com/bluvek/go-bluvek/pkg/bvutils"
@@ -10,7 +11,7 @@ import (
 )
 
 var serviceCmd = &cobra.Command{
-	Use:   "service",
+	Use:   "Start",
 	Short: "Web 项目服务启动",
 	Long:  `通过注册指定路由启动 HTTP 服务`,
 	RunE: func(cmd *cobra.Command, args []string) error {
@@ -21,14 +22,18 @@ var serviceCmd = &cobra.Command{
 
 		var eg errgroup.Group
 		for _, service := range serviceList {
-			service := service
 			eg.Go(func() error {
 				if err := service.OnStart(); err != nil {
 					return fmt.Errorf("服务 %s: %v", bvutils.GetCallerName(service), err)
 				}
+
 				return nil
 			})
 		}
+
+		// 等待所有任务完成
+		_ = eg.Wait()
+		os.Exit(124)
 		return nil
 	},
 }
